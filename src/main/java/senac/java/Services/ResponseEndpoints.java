@@ -17,11 +17,11 @@ public class ResponseEndpoints {
         os.close();
     }
 
-    public static void enviarResponseJson(HttpExchange exchange, JSONObject response) throws IOException {
+    public static void enviarResponseJson(HttpExchange exchange, JSONObject response, Integer statuscode) throws IOException {
         exchange.getResponseHeaders().set("Content-Type", "application/json");
 
         byte[] responseBytes = response.toString().getBytes("UTF-8");
-        exchange.sendResponseHeaders(200, responseBytes.length);
+        exchange.sendResponseHeaders( statuscode, responseBytes.length);
 
         OutputStream os = exchange.getResponseBody();
         os.write(responseBytes);

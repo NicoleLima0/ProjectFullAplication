@@ -1,16 +1,18 @@
 package senac.java.Domain;
 
+import org.json.JSONObject;
+
 public class Products {
     public static int Id = 0;
     public static String name = "";
     public static String factory = "";
     public static int quantify = 0;
+    public JSONObject toJson;
+
+//    public Products(String name, String factory, int quantify) {
+//    }
 
     public Products(String name, String factory, int quantify) {
-    }
-
-    public Products(int Id, String name, String factory, int quantify) {
-        this.Id = Id;
         this.name = name;
         this.factory = factory;
         this.quantify = quantify;
@@ -18,14 +20,6 @@ public class Products {
 
     public Products() {
 
-    }
-
-    public int getId() {
-        return Id;
-    }
-
-    public void setId(int Id) {
-        this.Id = Id;
     }
 
     public String getName() {
@@ -50,6 +44,15 @@ public class Products {
 
     public void setQuantify(int quantify) {
         this.quantify = quantify;
+    }
+
+    public JSONObject toJson(){
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("factory", factory);
+        json.put("quantify", quantify);
+
+        return json;
     }
 }
 

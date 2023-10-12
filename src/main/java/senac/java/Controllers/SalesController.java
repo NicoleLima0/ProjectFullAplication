@@ -33,16 +33,14 @@ public class SalesController {
                             json.getBoolean("finishedSale"),
                             json.getDouble("discount"),
                             json.getString("dateSale")
-
                     );
 
                     salesList.add(sale);
                     response = "Dados recebidos com sucesso!";
-                    res.enviarResponse(exchange, response, 201);
+                    res.enviarResponseJson(exchange, sale.toJson(), 201);
 
                 } catch (Exception e) {
                     System.out.println("O erro foi: " + e);
-                    res.enviarResponse(exchange, response, 405);
 
                 }
                 res.enviarResponse(exchange, response, 200);

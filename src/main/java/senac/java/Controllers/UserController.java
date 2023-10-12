@@ -21,13 +21,33 @@ public class UserController {
             String response = "";
 
             if ("GET".equals(exchange.getRequestMethod())) {
-                response = "Essa é a rota de usuário - GET";
-                res.enviarResponse(exchange, response, 200);
+                List<Users> getAllArray = Users.getAllUsers(usersList);
+                if (!getAllArray.isEmpty()) {
+                    for (Users user : getAllArray) {
+                        System.out.println("name: " + user.getName());
+                        System.out.println(("lastName: " + user.getLastName()));
+                        System.out.println(("cpf: " + user.getCpf()));
+                        System.out.println(("email: " + user.getEmail()));
+
+                    }
+
+                } else {
+                    System.out.println("Nenhum usuário encontrado!");
+                }
+//                Users getArray = Users.getUser(0, usersList);
+//                if (getArray != null) {
+//                    System.out.println("name: " + getArray.getName());
+//                    System.out.println(("lastName: " + getArray.getLastName()));
+//                    System.out.println(("cpf: " + getArray.getCpf()));
+//                    System.out.println(("email: " + getArray.getEmail()));
+//                } else {
+//                    System.out.println("Usuário não encontrado!");
+//                }
+
             } else if ("POST".equals(exchange.getRequestMethod())) {
                 try (InputStream requestBody = exchange.getRequestBody()) {
                     JSONObject json = new JSONObject(new String(requestBody.readAllBytes()));
                     Users user = new Users(
-                            json.getInt("Id"),
                             json.getString("name"),
                             json.getString("lastName"),
                             json.getString("cpf"),
@@ -36,11 +56,10 @@ public class UserController {
 
                     usersList.add(user);
                     response = "Dados recebidos com sucesso!";
-                    res.enviarResponse(exchange, response, 201);
+                    res.enviarResponseJson(exchange, user.toJson(), 201);
 
                 } catch (Exception e) {
                     System.out.println("O erro foi: " + e);
-                    res.enviarResponse(exchange, response, 405);
 
                 }
                 res.enviarResponse(exchange, response, 200);

@@ -1,5 +1,7 @@
 package senac.java.Domain;
 
+import org.json.JSONObject;
+
 public class Sales {
     public static int Id = 0;
     public static String user = "";
@@ -10,23 +12,12 @@ public class Sales {
     public static String dateSale = "";
 
     public Sales(String user, String products, double valor, boolean finishedSale, double discount, String dateSale) {
-    }
-
-    public Sales(int Id, String user, String products, double valor, boolean finishedSale, double discount, String dateSale) {
-        this.Id = Id;
         this.user = user;
         this.products = products;
         this.valor = valor;
         this.finishedSale = finishedSale;
         this.discount = discount;
         this.dateSale = dateSale;
-    }
-
-    public int getId() {
-        return Id;
-    }
-    public void setId(int Id) {
-        this.Id = Id;
     }
     public String getUser() {
         return user;
@@ -63,5 +54,17 @@ public class Sales {
     }
     public void setDateSale(){
         this.dateSale = dateSale;
+    }
+
+    public JSONObject toJson(){
+        JSONObject json = new JSONObject();
+        json.put("user", user);
+        json.put("products", products);
+        json.put("valor", valor);
+        json.put("finishedSale", finishedSale);
+        json.put("discount", discount);
+        json.put("dateSale", dateSale);
+
+        return json;
     }
 }

@@ -11,6 +11,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import senac.java.Domain.Products;
+
 public class ProductsController {
     static ResponseEndpoints res = new ResponseEndpoints();
     private static List<Products> productsList = new ArrayList<>();
@@ -34,14 +36,12 @@ public class ProductsController {
 
                     productsList.add(product);
                     response = "Dados recebidos com sucesso!";
-                    res.enviarResponse(exchange, response, 201);
+                    res.enviarResponseJson(exchange, product.toJson(), 201);
 
                 } catch (Exception e) {
                     System.out.println("O erro foi: " + e);
-                    res.enviarResponse(exchange, response, 405);
 
                 }
-                res.enviarResponse(exchange, response, 200);
             } else if ("PUT".equals(exchange.getRequestMethod())) {
                 response = "Essa é a rota de products - PUT";
                 res.enviarResponse(exchange, response, 200);
