@@ -1,5 +1,8 @@
 package senac.java.Services;
 
+import com.sun.net.httpserver.Headers;
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import senac.java.Controllers.ProductsController;
 import senac.java.Controllers.SalesController;
@@ -17,15 +20,37 @@ public class Servidor {
         Products product = new Products();
         Users users = new Users();
 
-        HttpServer server = HttpServer.create(new InetSocketAddress(3000), 0);//preciso criar um servidor http
+        HttpServer server = HttpServer.create(new InetSocketAddress(4000), 0);//preciso criar um servidor http
 
-        server.createContext("/api/usuario", new UserController.UserHandler());
-        server.createContext("/api/produto", new ProductsController.ProductsHandler());
-        server.createContext("/api/vendas", new SalesController.salesHandler());
+        HttpHandler userHandler = new UserController.UserHandler();
+        HttpHandler salesHandler = new SalesController.salesHandler();
+        HttpHandler productsHandler = new ProductsController.ProductsHandler();
+
+
+        server.createContext("/api/usuario", exchange -> {
+            configureCorsHeaders(exchange);
+            userHandler.handle(exchange);
+        });
+
+        server.createContext("/api/produto", exchange -> {
+            configureCorsHeaders(exchange);
+            productsHandler.handle(exchange);
+        });
+
+        server.createContext("/api/vendas", exchange -> {
+            configureCorsHeaders(exchange);
+            salesHandler.handle(exchange);
+        });
 
         server.setExecutor(null); //configurações do servidor
         server.start();
         System.out.println("Servidor Iniciado!");
 
+    }
+
+    private void configureCorsHeaders(HttpExchange exchange) {
+        Headers headers = exchange.getResponseHeaders();
+        headers.set("Access-Control-Allow-Origin", "*");
+        headers.set("Access-Control-Allow-Methods", "GET, OPTIONS, POST, PUT, DELETE");
     }
 }

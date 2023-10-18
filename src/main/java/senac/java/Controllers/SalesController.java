@@ -11,6 +11,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import static senac.java.Domain.Sales.user;
+
 public class SalesController {
     static ResponseEndpoints res = new ResponseEndpoints();
     private static List<Sales> salesList = new ArrayList<>();
@@ -21,8 +23,23 @@ public class SalesController {
             String response = "";
 
             if ("GET".equals(exchange.getRequestMethod())) {
-                response = "Essa é a rota de sales - GET";
-                res.enviarResponse(exchange, response, 200);
+                List<Sales> getAllArray = Sales.getAllSales(salesList);
+                if (!getAllArray.isEmpty()) {
+                    for (Sales sale : getAllArray) {
+                        System.out.println("user" + sale.getUser());
+                        System.out.println(("products" + sale.getProducts()));
+                        System.out.println(("valor" + sale.getValor()));
+                        System.out.println(("finishedSale" + sale.getFinishedSale()));
+                        System.out.println(("discount" + sale.getDiscount()));
+                        System.out.println(("dateSale" + sale.getDateSale()));
+                    }
+                    response = "Dados encontrados com sucesso!";
+                    res.enviarResponse(exchange, response, 200);
+                } else {
+                    System.out.println("Nenhum usuário encontrado!");
+                    response = "Dados encontrados com sucesso!";
+                    res.enviarResponse(exchange, response, 200);
+                }
             } else if ("POST".equals(exchange.getRequestMethod())) {
                 try (InputStream requestBody = exchange.getRequestBody()) {
                     JSONObject json = new JSONObject(new String(requestBody.readAllBytes()));
@@ -37,6 +54,7 @@ public class SalesController {
 
                     salesList.add(sale);
                     response = "Dados recebidos com sucesso!";
+                    System.out.println("SaleList contém " + sale.toJson());
                     res.enviarResponseJson(exchange, sale.toJson(), 201);
 
                 } catch (Exception e) {

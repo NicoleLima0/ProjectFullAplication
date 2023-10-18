@@ -28,11 +28,14 @@ public class UserController {
                         System.out.println(("lastName: " + user.getLastName()));
                         System.out.println(("cpf: " + user.getCpf()));
                         System.out.println(("email: " + user.getEmail()));
-
                     }
+                    response = "Dados encontrados com sucesso!";
+                    res.enviarResponse(exchange, response, 200);
 
                 } else {
                     System.out.println("Nenhum usuário encontrado!");
+                    response = "Dados encontrados com sucesso!";
+                    res.enviarResponse(exchange, response, 200);
                 }
 //                Users getArray = Users.getUser(0, usersList);
 //                if (getArray != null) {
@@ -55,7 +58,10 @@ public class UserController {
                     );
 
                     usersList.add(user);
+
+                    System.out.println("UserList contém " + user.toJson());
                     response = "Dados recebidos com sucesso!";
+
                     res.enviarResponseJson(exchange, user.toJson(), 201);
 
                 } catch (Exception e) {

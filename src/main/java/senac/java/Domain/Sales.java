@@ -2,6 +2,8 @@ package senac.java.Domain;
 
 import org.json.JSONObject;
 
+import java.util.List;
+
 public class Sales {
     public static int Id = 0;
     public static String user = "";
@@ -19,44 +21,59 @@ public class Sales {
         this.discount = discount;
         this.dateSale = dateSale;
     }
+    public Sales() {
+
+    }
+
     public String getUser() {
         return user;
     }
+
     public void setUser(String user) {
         this.user = user;
     }
-    public String getProducts(){
+
+    public String getProducts() {
         return products;
     }
-    public void setProducts(){
+
+    public void setProducts() {
         this.products = products;
     }
-    public double getValor(){
+
+    public double getValor() {
         return valor;
     }
+
     public void setValor(double valor) {
         this.valor = valor;
     }
-    public boolean getFinishedSale(){
+
+    public boolean getFinishedSale() {
         return finishedSale;
     }
-    public void setFinishedSale(){
+
+    public void setFinishedSale() {
         this.finishedSale = finishedSale;
     }
-    public double getDiscount(){
+
+    public double getDiscount() {
         return discount;
     }
-    public void setDiscount(){
+
+    public void setDiscount() {
         this.discount = discount;
     }
-    public String getDateSale(){
+
+    public String getDateSale() {
         return dateSale;
     }
-    public void setDateSale(){
+
+    public void setDateSale() {
         this.dateSale = dateSale;
     }
 
-    public JSONObject toJson(){
+    public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("user", user);
         json.put("products", products);
@@ -66,5 +83,8 @@ public class Sales {
         json.put("dateSale", dateSale);
 
         return json;
+    }
+    public static List<Sales> getAllSales(List<Sales> salesList){
+        return salesList;
     }
 }
