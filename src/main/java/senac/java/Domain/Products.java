@@ -2,6 +2,8 @@ package senac.java.Domain;
 
 import org.json.JSONObject;
 
+import java.util.List;
+
 public class Products {
     public static int Id = 0;
     public static String name = "";
@@ -9,8 +11,7 @@ public class Products {
     public static int quantify = 0;
     public JSONObject toJson;
 
-//    public Products(String name, String factory, int quantify) {
-//    }
+
 
     public Products(String name, String factory, int quantify) {
         this.name = name;
@@ -53,6 +54,9 @@ public class Products {
         json.put("quantify", quantify);
 
         return json;
+    }
+    public static List<Products> getAllProducts(List<Products> productsList){
+        return productsList;
     }
 }
 

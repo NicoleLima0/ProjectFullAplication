@@ -22,6 +22,7 @@ public class UserController {
 
             if ("GET".equals(exchange.getRequestMethod())) {
                 List<Users> getAllArray = Users.getAllUsers(usersList);
+                Users userJson = new Users();
                 if (!getAllArray.isEmpty()) {
                     for (Users user : getAllArray) {
                         System.out.println("name: " + user.getName());
@@ -29,23 +30,13 @@ public class UserController {
                         System.out.println(("cpf: " + user.getCpf()));
                         System.out.println(("email: " + user.getEmail()));
                     }
-                    response = "Dados encontrados com sucesso!";
-                    res.enviarResponse(exchange, response, 200);
+                    res.enviarResponseJson(exchange, userJson.arrayToJson(getAllArray), 200);
 
                 } else {
                     System.out.println("Nenhum usuário encontrado!");
                     response = "Dados encontrados com sucesso!";
                     res.enviarResponse(exchange, response, 200);
                 }
-//                Users getArray = Users.getUser(0, usersList);
-//                if (getArray != null) {
-//                    System.out.println("name: " + getArray.getName());
-//                    System.out.println(("lastName: " + getArray.getLastName()));
-//                    System.out.println(("cpf: " + getArray.getCpf()));
-//                    System.out.println(("email: " + getArray.getEmail()));
-//                } else {
-//                    System.out.println("Usuário não encontrado!");
-//                }
 
             } else if ("POST".equals(exchange.getRequestMethod())) {
                 try (InputStream requestBody = exchange.getRequestBody()) {

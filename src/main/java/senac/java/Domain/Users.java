@@ -17,12 +17,34 @@ public class Users {
 
     }
 
-    public Users( String name, String lastName, String cpf, String email) {
+    public JSONObject arrayToJson(List<Users> UsersList) {
+        JSONObject json = new JSONObject();
+        var keyJson = 1;
+
+        if (!UsersList.isEmpty()) {
+            for (Users user : UsersList) {
+                JSONObject objJson = new JSONObject();
+                objJson.put("name", user.getName());
+                objJson.put("lastName", user.getLastName());
+                objJson.put("Cpf", user.getCpf());
+                objJson.put("email", user.getEmail());
+
+                keyJson++;
+                json.put(String.valueOf(keyJson), objJson);
+            }
+            return json;
+        } else {
+            return null;
+        }
+    }
+
+    public Users(String name, String lastName, String cpf, String email) {
         this.name = name;
         this.lastName = lastName;
         this.cpf = cpf;
         this.email = email;
     }
+
     public String getName() {
         return name;
     }
@@ -67,14 +89,14 @@ public class Users {
     public static Users getUser(int index, List<Users> usersList) {
 //        List<Users> users = new ArrayList<>();
 //        users = usersList;
-        if (index >= 0 && index< usersList.size()) {
+        if (index >= 0 && index < usersList.size()) {
             return usersList.get(index);
         } else {
             return null;
         }
     }
 
-    public static List<Users> getAllUsers(List<Users> usersList){
+    public static List<Users> getAllUsers(List<Users> usersList) {
         return usersList;
     }
 
