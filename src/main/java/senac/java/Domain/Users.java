@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Users {
-    public static int Id = 0;
-    public static String name = "";
-    public static String lastName = "";
-    public static String cpf = "";
-    public static String email = "";
+    public int Id = 0;
+    public String name = "";
+    public String lastName = "";
+    public String cpf = "";
+    public String email = "";
 
 
     public Users() {
@@ -19,9 +19,10 @@ public class Users {
 
     public JSONObject arrayToJson(List<Users> UsersList) {
         JSONObject json = new JSONObject();
-        var keyJson = 1;
 
         if (!UsersList.isEmpty()) {
+            var keyJson = 0;
+
             for (Users user : UsersList) {
                 JSONObject objJson = new JSONObject();
                 objJson.put("name", user.getName());
@@ -29,8 +30,8 @@ public class Users {
                 objJson.put("Cpf", user.getCpf());
                 objJson.put("email", user.getEmail());
 
-                keyJson++;
                 json.put(String.valueOf(keyJson), objJson);
+                keyJson++;
             }
             return json;
         } else {
@@ -77,7 +78,7 @@ public class Users {
         this.email = email;
     }
 
-    public static JSONObject toJson() {
+    public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("name", name);
         json.put("lastName", lastName);

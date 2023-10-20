@@ -46,6 +46,7 @@ public class UserController {
                             json.getString("lastName"),
                             json.getString("cpf"),
                             json.getString("email")
+
                     );
 
                     usersList.add(user);
@@ -56,7 +57,9 @@ public class UserController {
                     res.enviarResponseJson(exchange, user.toJson(), 201);
 
                 } catch (Exception e) {
-                    System.out.println("O erro foi: " + e);
+                    response = e.toString();
+
+                    System.out.println(response);
 
                 }
                 res.enviarResponse(exchange, response, 200);
