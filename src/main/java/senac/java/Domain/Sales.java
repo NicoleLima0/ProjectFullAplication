@@ -5,86 +5,105 @@ import org.json.JSONObject;
 import java.util.List;
 
 public class Sales {
-    public static int Id = 0;
-    public static String user = "";
-    public static String products = "";
-    public static double valor = 0;
-    public static boolean finishedSale = false;
-    public static double discount = 0;
-    public static String dateSale = "";
+    int Id;
+    String qntd = "";
+    double price = 0;
+    String name = "";
+    String categoria = "";
+    String dataPedido = "true";
 
-    public Sales(String user, String products, double valor, boolean finishedSale, double discount, String dateSale) {
-        this.user = user;
-        this.products = products;
-        this.valor = valor;
-        this.finishedSale = finishedSale;
-        this.discount = discount;
-        this.dateSale = dateSale;
-    }
     public Sales() {
-
     }
 
-    public String getUser() {
-        return user;
+    public Sales(String qntd, double price, String name, String categoria, String dataPedido) {
+        this.qntd = qntd;
+        this.price = price;
+        this.name = name;
+        this.dataPedido = dataPedido;
+        this.categoria = categoria;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public String getQntd() {
+        return qntd;
     }
 
-    public String getProducts() {
-        return products;
+    public void setQntd(String qntd) {
+        this.qntd = qntd;
     }
 
-    public void setProducts() {
-        this.products = products;
+    public double getPrice() {
+        return price;
     }
 
-    public double getValor() {
-        return valor;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
-    public void setValor(double valor) {
-        this.valor = valor;
+    public String getName() {
+        return name;
     }
 
-    public boolean getFinishedSale() {
-        return finishedSale;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setFinishedSale() {
-        this.finishedSale = finishedSale;
+    public String getDataPedido() {
+        return dataPedido;
     }
 
-    public double getDiscount() {
-        return discount;
+    public void setDataPedido(String dataPedido) {
+        this.dataPedido = dataPedido;
     }
 
-    public void setDiscount() {
-        this.discount = discount;
+    public String getCategoria() {
+        return categoria;
     }
 
-    public String getDateSale() {
-        return dateSale;
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
 
-    public void setDateSale() {
-        this.dateSale = dateSale;
-    }
 
-    public JSONObject toJson() {
+    public JSONObject tojson() {
         JSONObject json = new JSONObject();
-        json.put("user", user);
-        json.put("products", products);
-        json.put("valor", valor);
-        json.put("finishedSale", finishedSale);
-        json.put("discount", discount);
-        json.put("dateSale", dateSale);
-
+        json.put("qntd", qntd);
+        json.put("price", price);
+        json.put("name", name);
+        json.put("categoria", categoria);
+        json.put("dataPedido", dataPedido);
         return json;
     }
-    public static List<Sales> getAllSales(List<Sales> salesList){
+
+    public JSONObject arrayToJson(List<Sales> salesList) {
+        JSONObject json = new JSONObject();
+        if (!salesList.isEmpty()) {
+            var keyJson = 0;
+            for (Sales sales : salesList) {
+                JSONObject jsonFor = new JSONObject();
+
+                jsonFor.put("qntd", sales.getQntd());
+                jsonFor.put("price", sales.getPrice());
+                jsonFor.put("name", sales.getName());
+                jsonFor.put("categoria", sales.getCategoria());
+                jsonFor.put("dataPedido", sales.getDataPedido());
+                keyJson++;
+                json.put(String.valueOf(keyJson), jsonFor);
+            }
+            return json;
+        } else {
+            return null;
+        }
+    }
+
+    public static List<Sales> getAllSales(List<Sales> salesList) {
         return salesList;
+    }
+
+    public static Sales getSales(int index, List<Sales> salesList) {
+        if (index >= 0 && index < salesList.size()) {
+            return salesList.get(index);
+        } else {
+            return null;
+        }
     }
 }

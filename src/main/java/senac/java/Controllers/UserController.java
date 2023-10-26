@@ -26,7 +26,6 @@ public class UserController {
                 if (!getAllArray.isEmpty()) {
                     for (Users user : getAllArray) {
                         System.out.println("name: " + user.getName());
-                        System.out.println(("lastName: " + user.getLastName()));
                         System.out.println(("cpf: " + user.getCpf()));
                         System.out.println(("email: " + user.getEmail()));
                     }
@@ -43,7 +42,6 @@ public class UserController {
                     JSONObject json = new JSONObject(new String(requestBody.readAllBytes()));
                     Users user = new Users(
                             json.getString("name"),
-                            json.getString("lastName"),
                             json.getString("cpf"),
                             json.getString("email")
 
@@ -57,23 +55,28 @@ public class UserController {
                     res.enviarResponseJson(exchange, user.toJson(), 201);
 
                 } catch (Exception e) {
+                    System.out.println("Cheguei no catch do POST");
                     response = e.toString();
 
                     System.out.println(response);
+                    res.enviarResponse(exchange, "Bad Request", 200);
 
                 }
-                res.enviarResponse(exchange, response, 200);
-            } else if ("PUT".equals(exchange.getRequestMethod())) {
-                response = "Essa é a rota de usuário - PUT";
-                res.enviarResponse(exchange, response, 200);
-            } else if ("DELETE".equals(exchange.getRequestMethod())) {
-                response = "Essa é a rota de usuário - DELETE";
-                res.enviarResponse(exchange, response, 200);
-            } else {
-                response = "Rota usuário - Método não disponivel." + " O método utilizado foi: " + exchange.getRequestMethod();
-                res.enviarResponse(exchange, response, 405);
+            } else if ("OPTIONS".equals(exchange.getRequestMethod())) {
+                exchange.sendResponseHeaders(204, -1);
+                exchange.close();
+                return;
             }
+//            } else if ("PUT".equals(exchange.getRequestMethod())) {
+//                response = "Essa é a rota de usuário - PUT";
+//                res.enviarResponse(exchange, response, 200);
+//            } else if ("DELETE".equals(exchange.getRequestMethod())) {
+//                response = "Essa é a rota de usuário - DELETE";
+//                res.enviarResponse(exchange, response, 200);
+//            } else {
+//                response = "Rota usuário - Método não disponivel." + " O método utilizado foi: " + exchange.getRequestMethod();
+//                res.enviarResponse(exchange, response, 405);
+//            }
         }
     }
-
 }

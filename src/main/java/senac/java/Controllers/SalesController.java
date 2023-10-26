@@ -11,68 +11,70 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import static senac.java.Domain.Sales.user;
-
 public class SalesController {
     static ResponseEndpoints res = new ResponseEndpoints();
-    private static List<Sales> salesList = new ArrayList<>();
+    private static List<Sales> SalesList = new ArrayList<>();
 
-    public static class salesHandler implements HttpHandler { // criando uma classe para modificar uma outra classe
+    public static class salesHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
             String response = "";
 
             if ("GET".equals(exchange.getRequestMethod())) {
-                List<Sales> getAllArray = Sales.getAllSales(salesList);
-                if (!getAllArray.isEmpty()) {
-                    for (Sales sale : getAllArray) {
-                        System.out.println("user" + sale.getUser());
-                        System.out.println(("products" + sale.getProducts()));
-                        System.out.println(("valor" + sale.getValor()));
-                        System.out.println(("finishedSale" + sale.getFinishedSale()));
-                        System.out.println(("discount" + sale.getDiscount()));
-                        System.out.println(("dateSale" + sale.getDateSale()));
+                List<Sales> getAllFromArray = Sales.getAllSales(SalesList);
+                Sales salesJson = new Sales();
+                if (!getAllFromArray.isEmpty()) {
+                    for (Sales sales : getAllFromArray) {
+                        System.out.println("Quantidade" + sales.getQntd());
+                        System.out.println("Preço" + sales.getPrice());
+                        System.out.println("Nome" + sales.getName());
+                        System.out.println("Categoria" + sales.getCategoria());
+                        System.out.println("Data do Pedido" + sales.getDataPedido());
                     }
-                    response = "Dados encontrados com sucesso!";
-                    res.enviarResponse(exchange, response, 200);
+                    res.enviarResponseJson(exchange, salesJson.arrayToJson(getAllFromArray), 201);
                 } else {
-                    System.out.println("Nenhum usuário encontrado!");
-                    response = "Dados encontrados com sucesso!";
-                    res.enviarResponse(exchange, response, 200);
+                    System.out.println("erro e G");
                 }
+
             } else if ("POST".equals(exchange.getRequestMethod())) {
                 try (InputStream requestBody = exchange.getRequestBody()) {
                     JSONObject json = new JSONObject(new String(requestBody.readAllBytes()));
+
                     Sales sale = new Sales(
-                            json.getString("user"),
-                            json.getString("products"),
-                            json.getDouble("valor"),
-                            json.getBoolean("finishedSale"),
-                            json.getDouble("discount"),
-                            json.getString("dateSale")
+                            json.getString("qntd"),
+                            json.getDouble("price"),
+                            json.getString("name"),
+                            json.getString("categoria"),
+                            json.getString("dataPedido")
                     );
-
-                    salesList.add(sale);
-                    response = "Dados recebidos com sucesso!";
-                    System.out.println("SaleList contém " + sale.toJson());
-                    res.enviarResponseJson(exchange, sale.toJson(), 201);
-
+                    SalesList.add(sale);
+                    res.enviarResponseJson(exchange, sale.tojson(), 201);
                 } catch (Exception e) {
-                    System.out.println("O erro foi: " + e);
-
+                    System.out.println("Erro ei1");
+                    res.enviarResponse(exchange, response, 405);
                 }
-                res.enviarResponse(exchange, response, 200);
-            } else if ("PUT".equals(exchange.getRequestMethod())) {
-                response = "Essa é a rota de sales - PUT";
-                res.enviarResponse(exchange, response, 200);
-            } else if ("DELETE".equals(exchange.getRequestMethod())) {
-                response = "Essa é a rota de sales - DELETE";
-                res.enviarResponse(exchange, response, 200);
-            } else {
-                response = "Rota sales - Método não disponivel." + " O método utilizado foi: " + exchange.getRequestMethod();
-                res.enviarResponse(exchange, response, 405);
-            }
-        }
-    }
 
+            } else if ("OPTIONS".equals(exchange.getRequestMethod())) {
+                exchange.sendResponseHeaders(204, -1);
+                exchange.close();
+                return;
+            }
+
+//            } else if ("PUT".equals(exchange.getRequestMethod())){
+//                response = "Essa e a rota de Vendas" + exchange.getRequestMethod();
+//                res.enviarResponse(exchange, response, 200);
+//            }else if ("DELETE".equals(exchange.getRequestMethod())){
+//                response = "Essa e a rota de Vendas" + exchange.getRequestMethod();
+//                res.enviarResponse(exchange, response, 200);
+//            }else if ("OPTIONS".equals(exchange.getRequestMethod())){
+//                response = "Essa e a rota de Usuarios" + exchange.getRequestMethod();
+//                res.enviarResponse(exchange, response, 200);
+//            }else {
+//                response = "opção inválida "+  exchange.getRequestMethod();
+//                res.enviarResponse(exchange, response, 200);
+//            }
+
+        }
+
+    }
 }
