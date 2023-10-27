@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Sales {
     int Id;
-    String qntd = "";
+    double qntd = 0;
     double price = 0;
     String name = "";
     String categoria = "";
@@ -15,7 +15,7 @@ public class Sales {
     public Sales() {
     }
 
-    public Sales(String qntd, double price, String name, String categoria, String dataPedido) {
+    public Sales(double qntd, double price, String name, String categoria, String dataPedido) {
         this.qntd = qntd;
         this.price = price;
         this.name = name;
@@ -23,11 +23,11 @@ public class Sales {
         this.categoria = categoria;
     }
 
-    public String getQntd() {
+    public double getQntd() {
         return qntd;
     }
 
-    public void setQntd(String qntd) {
+    public void setQntd(double qntd) {
         this.qntd = qntd;
     }
 

@@ -41,7 +41,7 @@ public class SalesController {
                     JSONObject json = new JSONObject(new String(requestBody.readAllBytes()));
 
                     Sales sale = new Sales(
-                            json.getString("qntd"),
+                            json.getDouble("qntd"),
                             json.getDouble("price"),
                             json.getString("name"),
                             json.getString("categoria"),
@@ -50,7 +50,7 @@ public class SalesController {
                     SalesList.add(sale);
                     res.enviarResponseJson(exchange, sale.tojson(), 201);
                 } catch (Exception e) {
-                    System.out.println("Erro ei1");
+                    System.out.println("Caiu no catch, ERRO!");
                     res.enviarResponse(exchange, response, 405);
                 }
 
