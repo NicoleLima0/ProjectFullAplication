@@ -75,7 +75,8 @@ public class Users {
         return json;
     }
 
-    public static Users getUser(int index, List<Users> usersList) {;
+    public static Users getUser(int index, List<Users> usersList) {
+        ;
         if (index >= 0 && index < usersList.size()) {
             return usersList.get(index);
         } else {

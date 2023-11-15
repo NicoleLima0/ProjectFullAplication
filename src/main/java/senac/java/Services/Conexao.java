@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Conexao {
-    public void conectar() {
+    public Connection conectar() {
         Connection conexao = null;
         try {
             Class.forName("com.microsoft.sqlserver.jdc.SQLServerDriver");
@@ -25,10 +25,11 @@ public class Conexao {
             try {
                 if (conexao != null && !conexao.isClosed()) {
                     conexao.close();
-                } catch(SQLException e){
-                    System.out.println("O erro do SQL foi: " + e);
                 }
+            } catch (SQLException e) {
+                System.out.println("O erro do SQL foi: " + e);
             }
         }
+        return conexao;
     }
 }
