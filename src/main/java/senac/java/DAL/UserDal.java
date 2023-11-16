@@ -86,7 +86,7 @@ public class UserDal {
         return result;
     }
 
-    public int atualizarUsuario() throws SQLException {
+    public int atualizarUsuario(Integer id, String name, String cpf, String email) throws SQLException {
         String sql = "UPDATE Users SET name = ?, cpf = ?, email = ? WHERE id = ?";
         int linhasAfetadas = 0;
 
@@ -108,7 +108,7 @@ public class UserDal {
         return linhasAfetadas;
     }
 
-    public void excluirUsuario() throws SQLException {
+    public void deletarUsuario(Integer id) throws SQLException {
         String sql = "DELETE From Users WHERE id = ?";
         try (PreparedStatement statement = conectar().prepareStatement(sql)) {
 //            statement.setInt(1, id);
